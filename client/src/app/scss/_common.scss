@@ -1,0 +1,149 @@
+body {
+	@include scrollbars(6px, 9px, $corpColor);
+}
+
+a {
+	color: #fff;
+	text-decoration: none;
+	&:hover,
+	&:focus,
+	&:active {
+		color: #fff;
+		text-decoration: none;
+	}
+}
+
+button {
+	border: transparent;
+	background: transparent;
+	width: auto;
+	height: auto;
+	padding: 0;
+	margin: 0;
+}
+
+.btn {
+	cursor: pointer;
+	padding: 12px 10px;
+	font-size: 14px;
+	border-radius: 20px;
+	text-align: center;
+	font-weight: 500;
+	border: 2px solid transparent;
+	@media screen and (max-width: $mobileBreakPoint) {
+		padding: 3.2vw 0;
+		font-size: 3.2vw;
+		line-height: 3.733vw;
+		border-radius: 5.333vw;
+		border: 0.533vw solid transparent;
+	}
+	&.btn-primary {
+		color: $corpColor;
+		background: #ffff;
+		&:hover {
+			background: #f3f3f3;
+			box-shadow: 1px 1px 8px -7px rgba(0, 0, 0, 0.1);
+		}
+		&.outline {
+			background: transparent;
+			color: #fff;
+			border-color: #fff;
+			&:hover {
+				color: $corpColor;
+				background: #ffff;
+				border-color: transparent;
+			}
+		}
+	}
+	&.btn-secondary {
+		background: $corpColorSecondary;
+		color: #fff;
+	}
+}
+
+.app {
+	width: 100%;
+}
+
+.section {
+	width: 100%;
+	display: flex;
+	height: auto;
+	flex-direction: column;
+	align-items: center;
+	.bg-wrap {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		overflow: hidden;
+		video,
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+}
+
+.section-title {
+	width: $desktopGridWidht;
+	display: flex;
+	margin-bottom: 40px;
+	margin-top: 100px;
+	padding: 0 20px;
+	@media screen and (max-width: $desktopGridWidht) {
+		width: 100%;
+	}
+	@media screen and (max-width: $mobileBreakPoint) {
+		margin-top: 6.933vw;
+		margin-bottom: 13.333vw;
+		padding: 0 5.333vw;
+	}
+	h3 {
+		width: auto;
+		font-size: 16px;
+		font-weight: 500;
+		color: $corpColor;
+		border-bottom: 4px solid $corpColorSecondary;
+		padding: 0 0 6px;
+		text-align: left;
+		margin: 0;
+		@media screen and (max-width: $mobileBreakPoint) {
+			font-size: 4.267vw;
+			padding: 0 0 1.6vw;
+			border-bottom: 1.067vw solid $corpColorSecondary;
+		}
+	}
+}
+
+.container {
+	width: $desktopGridWidht;
+	padding: 0 20px;
+	display: flex;
+	flex-direction: column;
+	@media screen and (max-width: $desktopGridWidht) {
+		width: 100%;
+	}
+	@media screen and (max-width: $mobileBreakPoint) {
+		padding: 0 5.333vw;
+	}
+}
+
+.modal {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	background: rgba($color: #000000, $alpha: 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	@media screen and (max-width: $mobileBreakPoint) {
+		padding: 0 5.333vw;
+	}
+}

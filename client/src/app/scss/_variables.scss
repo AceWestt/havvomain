@@ -1,0 +1,41 @@
+$desktopGridWidht: 1400px;
+$mobileBreakPoint: 1060px;
+
+$corpColor: #0d5c70;
+$corpColorSecondary: #00ccff;
+$blue: #0167ff;
+$green: #39b80c;
+$greenLighter: #0ecf21;
+$orange: #ffab07;
+$footerBg: #212121;
+$grey: #393939;
+$greyLighter: #b5b5b5;
+
+@mixin scrollbars(
+	$size,
+	$border-radius,
+	$foreground-color,
+	$background-color: mix($foreground-color, white, 50%)
+) {
+	// For Google Chrome
+	&::-webkit-scrollbar {
+		width: $size;
+		height: $size;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: $foreground-color;
+		border-radius: $border-radius;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: $background-color;
+		border-radius: $border-radius;
+	}
+
+	// For Internet Explorer
+	& {
+		scrollbar-face-color: $foreground-color;
+		scrollbar-track-color: $background-color;
+	}
+}

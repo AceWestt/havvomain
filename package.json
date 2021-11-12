@@ -1,0 +1,19 @@
+{
+  "name": "havvo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "react-hook-form": "^7.18.1",
+    "react-yandex-maps": "^4.6.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
