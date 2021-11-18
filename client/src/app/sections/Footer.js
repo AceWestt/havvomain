@@ -5,9 +5,12 @@ import { useForm } from 'react-hook-form';
 import Button from '../components/Button';
 import { gsap } from 'gsap';
 import { useAppContext } from '../context';
+import { useAxiosGet } from '../../common/hooks/useAxiosGet';
 
 const Footer = () => {
-	const { contactSectionRef } = useAppContext();
+	const { data } = useAxiosGet('/api/othersscreen');
+
+	const { lang, contactSectionRef } = useAppContext();
 
 	const { register, handleSubmit } = useForm();
 	const onSubmit = (data) => {
@@ -73,7 +76,7 @@ const Footer = () => {
 		<Section className="footer-section" sectionRef={contactSectionRef}>
 			<div className="head" ref={headRef}>
 				<img src={logo} alt="logo" className="logo" />
-				<span>В партнёрстве с природой!</span>
+				<span>{data?.contactsText[lang]}</span>
 			</div>
 			<div className="body">
 				<div className="column contact-details" ref={firstColumnRef}>
@@ -123,8 +126,8 @@ const Footer = () => {
 				</form>
 			</div>
 			<div className="bottom" ref={lastRef}>
-				<span>©2021 HavvoGroup. All Rights Reserved</span>
-				<span>Политика конфиденциальности</span>
+				<span>{data?.copyright[lang]}</span>
+				{/* <span>Политика конфиденциальности</span> */}
 			</div>
 		</Section>
 	);

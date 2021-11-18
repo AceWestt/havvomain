@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.scss';
 import { AppProvider } from './context';
 import About from './sections/About';
@@ -10,7 +11,7 @@ import { ScrollToPlugin, ScrollTrigger } from 'gsap/all';
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
-function App() {
+const App = () => {
 	return (
 		<div className="app">
 			<AppProvider>
@@ -22,6 +23,6 @@ function App() {
 			</AppProvider>
 		</div>
 	);
-}
+};
 
 export default App;

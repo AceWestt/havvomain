@@ -2,7 +2,14 @@ body {
 	@include scrollbars(6px, 9px, $corpColor);
 }
 
-a {
+.app * {
+	box-sizing: border-box;
+	position: relative;
+	font-family: 'Ubuntu', sans-serif;
+	white-space: pre-wrap;
+}
+
+.app a {
 	color: #fff;
 	text-decoration: none;
 	&:hover,

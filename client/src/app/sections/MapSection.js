@@ -5,9 +5,12 @@ import mapPointIcn from '../imgs/map_point_icn.png';
 import mapPointMainIcn from '../imgs/map_point_main_icn.png';
 import { gsap } from 'gsap';
 import { useAppContext } from '../context';
+import { useAxiosGet } from '../../common/hooks/useAxiosGet';
 
 const MapSection = () => {
-	const { mapSectionRef } = useAppContext();
+	const { data } = useAxiosGet('/api/othersscreen');
+
+	const { lang, mapSectionRef } = useAppContext();
 
 	const [activeContinent, setActiveContinent] = useState(0);
 
@@ -62,15 +65,13 @@ const MapSection = () => {
 	return (
 		<Section
 			className="map-section"
-			sectionTitle="География поставок"
+			sectionTitle={data?.mapTitle[lang]}
 			titleRef={titleRef}
 			sectionRef={mapSectionRef}
 		>
 			<div className="short-description-wrap" ref={descriptionRef}>
-				<span className="title">Мы работаем с такими странами, как:</span>
-				<span className="content">
-					Россия, Германия, Кахастан, Киргизстан, Афганистан, Украина, Эквадор
-				</span>
+				<span className="title">{data?.mapText.top[lang]}</span>
+				<span className="content">{data?.mapText.bottom[lang]}</span>
 			</div>
 			<div className="continent-wrap" ref={continentsRef}>
 				{continents.map((c, i) => {

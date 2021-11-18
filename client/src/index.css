@@ -14,12 +14,6 @@ body {
 	width: 100%;
 }
 
-body * {
-	box-sizing: border-box;
-	position: relative;
-	font-family: 'Ubuntu', sans-serif;
-}
-
 #root {
 	width: 100%;
 }

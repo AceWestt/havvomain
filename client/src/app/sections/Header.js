@@ -10,6 +10,7 @@ import { useAppContext } from '../context';
 import Button from '../components/Button';
 import downArrow from '../imgs/header_down_arrow_circled.svg';
 import { gsap, Linear } from 'gsap';
+import { useAxiosGet } from '../../common/hooks/useAxiosGet';
 
 const Header = () => {
 	const {
@@ -19,9 +20,10 @@ const Header = () => {
 		headerSectionRef,
 		aboutSectionRef,
 		productsSectionRef,
-		mapSectionRef,
 		contactSectionRef,
 	} = useAppContext();
+
+	const { data } = useAxiosGet('/api/mainscreen');
 
 	const logoRef = useRef(null);
 	const menuRef = useRef(null);
@@ -36,97 +38,99 @@ const Header = () => {
 		gsap.to(window, { duration: 0.5, scrollTo: obj });
 	};
 
-	const sectionOpen = () => {
-		const navTl = gsap.timeline();
-		navTl.fromTo(
-			logoRef.current,
-			{ y: 20, opacity: 0 },
-			{ y: 0, opacity: 1, duration: 0.5, ease: Linear.easeNone }
-		);
-		navTl.fromTo(
-			menuRef.current.children,
-			{
-				y: 20,
-				opacity: 0,
-			},
-			{
-				y: 0,
-				opacity: 1,
-				duration: 0.5,
-				stagger: {
-					each: 0.3,
-				},
-				ease: Linear.easeNone,
-			}
-		);
-		navTl.fromTo(
-			contactRef.current.children,
-			{
-				y: 20,
-				opacity: 0,
-			},
-			{
-				y: 0,
-				opacity: 1,
-				duration: 0.5,
-				stagger: {
-					each: 0.3,
-				},
-				ease: Linear.easeNone,
-			}
-		);
-		navTl.fromTo(
-			langSwitchRef.current,
-			{ y: 20, opacity: 0 },
-			{ y: 0, opacity: 1, duration: 0.5, ease: Linear.easeNone }
-		);
-		navTl.fromTo(
-			midRef.current.children,
-			{
-				y: 20,
-				opacity: 0,
-			},
-			{
-				y: 0,
-				opacity: 1,
-				duration: 0.5,
-				stagger: {
-					each: 0.3,
-				},
-				ease: Linear.easeNone,
-			}
-		);
-		navTl.fromTo(
-			bottomRef.current,
-			{ y: 20, opacity: 0 },
-			{
-				y: 0,
-				opacity: 1,
-				duration: 0.5,
-				ease: Linear.easeNone,
-				onComplete: () => {
-					gsap.fromTo(
-						bottomRef.current,
-						{
-							y: 0,
-							opacity: 1,
-						},
-						{
-							y: 20,
-							opacity: 0,
-							duration: 1,
-							repeat: -1,
-							ease: Linear.easeNone,
-						}
-					);
-				},
-			}
-		);
-	};
-
 	useEffect(() => {
+		const sectionOpen = () => {
+			const navTl = gsap.timeline();
+			navTl.fromTo(
+				logoRef.current,
+				{ y: 20, opacity: 0 },
+				{ y: 0, opacity: 1, duration: 0.5, ease: Linear.easeNone }
+			);
+			if (!smallScreen) {
+				navTl.fromTo(
+					menuRef.current.children,
+					{
+						y: 20,
+						opacity: 0,
+					},
+					{
+						y: 0,
+						opacity: 1,
+						duration: 0.5,
+						stagger: {
+							each: 0.3,
+						},
+						ease: Linear.easeNone,
+					}
+				);
+				navTl.fromTo(
+					contactRef.current.children,
+					{
+						y: 20,
+						opacity: 0,
+					},
+					{
+						y: 0,
+						opacity: 1,
+						duration: 0.5,
+						stagger: {
+							each: 0.3,
+						},
+						ease: Linear.easeNone,
+					}
+				);
+			}
+
+			navTl.fromTo(
+				langSwitchRef.current,
+				{ y: 20, opacity: 0 },
+				{ y: 0, opacity: 1, duration: 0.5, ease: Linear.easeNone }
+			);
+			navTl.fromTo(
+				midRef.current.children,
+				{
+					y: 20,
+					opacity: 0,
+				},
+				{
+					y: 0,
+					opacity: 1,
+					duration: 0.5,
+					stagger: {
+						each: 0.3,
+					},
+					ease: Linear.easeNone,
+				}
+			);
+			navTl.fromTo(
+				bottomRef.current,
+				{ y: 20, opacity: 0 },
+				{
+					y: 0,
+					opacity: 1,
+					duration: 0.5,
+					ease: Linear.easeNone,
+					onComplete: () => {
+						gsap.fromTo(
+							bottomRef.current,
+							{
+								y: 0,
+								opacity: 1,
+							},
+							{
+								y: 20,
+								opacity: 0,
+								duration: 1,
+								repeat: -1,
+								ease: Linear.easeNone,
+							}
+						);
+					},
+				}
+			);
+		};
 		sectionOpen();
-	}, []);
+	}, [smallScreen]);
 
 	return (
 		<>
@@ -156,9 +160,9 @@ const Header = () => {
 						</div>
 					</div>
 					<div className="nav-item-wrap cta" ref={contactRef}>
-						<a href="tel:909193071">
+						<a href={`tel:${data?.phone}`}>
 							<img src={phoneIcn} alt="phone" />
-							<span>{'(90) 919 30 71'}</span>
+							<span>{data?.phone}</span>
 						</a>
 						<Button
 							title="Связаться"
@@ -187,12 +191,8 @@ const Header = () => {
 					</div>
 				</nav>
 				<div className="mid" ref={midRef}>
-					<h1>В партнёрстве с природой!</h1>
-					<h2>
-						Наша цель — поставка свежих продуктов.
-						<br /> Несмотря на то, что с момента основания компании прошло всего 2
-						года, мы успели завоевать доверие многих стран СНГ
-					</h2>
+					<h1>{data?.title[lang]}</h1>
+					<h2>{data?.description[lang]}</h2>
 					<div className="buttons">
 						<Button
 							title="Посмотреть продукцию"
@@ -251,9 +251,9 @@ const Header = () => {
 						</div>
 					</div>
 					<div className="bottom">
-						<a href="tel:909193071">
+						<a href={`tel:${data?.phone}`}>
 							<img src={phoneIcn} alt="phone" />
-							<span>{'(90) 919 30 71'}</span>
+							<span>{data?.phone}</span>
 						</a>
 						<Button
 							title="Связаться"

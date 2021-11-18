@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './app/App';
+import Admin from './admin/Admin';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -9,10 +10,8 @@ ReactDOM.render(
 	<React.StrictMode>
 		<Router>
 			<Switch>
-				<Route exact path="/">
-					<App />
-				</Route>
-				<Route path="/admin">sdaf</Route>
+				<Route exact path="/" component={App} />
+				<Route path="/admin" component={Admin} />
 			</Switch>
 		</Router>
 	</React.StrictMode>,

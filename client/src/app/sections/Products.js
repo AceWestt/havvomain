@@ -7,9 +7,13 @@ import Modal from '../components/Modal';
 import modalCloseIcn from '../imgs/modal-close-icn.svg';
 import { gsap } from 'gsap';
 import { useAppContext } from '../context';
+import { useAxiosGet } from '../../common/hooks/useAxiosGet';
 
 const Products = () => {
-	const { productsSectionRef } = useAppContext();
+	const { data } = useAxiosGet('/api/othersscreen');
+	const { data: categories } = useAxiosGet('/api/products/cats');
+
+	const { lang, productsSectionRef } = useAppContext();
 
 	const [activeCategory, setActiveCategory] = useState(0);
 	const [isModalShown, setModalShown] = useState(false);
@@ -56,26 +60,27 @@ const Products = () => {
 		<>
 			<Section
 				className="products-section"
-				sectionTitle="Наша продукция"
+				sectionTitle={data?.productTitle[lang]}
 				bg={Bg}
 				titleRef={titleRef}
 				sectionRef={productsSectionRef}
 			>
 				<div className="product-list-wrapper" ref={productsRef}>
-					{sampleData.map((c, i) => {
+					{categories?.map((c, i) => {
 						return (
 							<Category
 								key={`product-category-${i}`}
 								category={c}
 								id={i}
 								showModal={showModal}
+								lang={lang}
 							/>
 						);
 					})}
 				</div>
 			</Section>
 			{isModalShown && (
-				<ProductModal category={sampleData[activeCategory]} hideModal={hideModal} />
+				<ProductModal category={activeCategory} hideModal={hideModal} lang={lang} />
 			)}
 		</>
 	);
@@ -87,37 +92,33 @@ const Bg = () => {
 	return <span />;
 };
 
-const Category = ({ category, customClass = '', id, showModal }) => {
-	const { title, img, detailBlockBgImg, products } = category;
-	let productsText = '';
-	products.map((p) => {
-		productsText += `${p.title.ru}, `;
-		return p;
-	});
+const Category = ({ category, customClass = '', showModal, lang }) => {
+	const { name, img, description, titleBg } = category;
+
 	return (
 		<div className={`category ${customClass}`}>
 			<div className="img-holder">
-				<img src={img} className="img" alt={title.en} />
+				<img src={img} className="img" alt={name.en} />
 			</div>
 
 			<div className="more">
-				<img src={detailBlockBgImg} alt="bg" className="bg" />
-				<div className="title">{title.ru}</div>
-				<p>{productsText.substr(0, productsText.length - 2)}</p>
-				<Button title="Подробнее" outline onClick={() => showModal(id)} />
+				<img src={titleBg} alt="bg" className="bg" />
+				<div className="title">{name[lang]}</div>
+				<p>{description[lang]}</p>
+				<Button title="Подробнее" outline onClick={() => showModal(category)} />
 			</div>
 		</div>
 	);
 };
 
-const ProductModal = ({ category, hideModal }) => {
-	const { title, products } = category;
+const ProductModal = ({ category, hideModal, lang }) => {
+	const { data } = useAxiosGet(`/api/products/products/${category._id}`);
 	return (
 		<Modal customClass="product-detailed-modal">
 			<div className="product-modal-container">
 				<img className="bg" src={bg} alt="bg" />
 				<div className="header">
-					<span className="title">{title.ru}:</span>
+					<span className="title">{category.name[lang]}:</span>
 					<img
 						className="close-button"
 						src={modalCloseIcn}
@@ -127,26 +128,26 @@ const ProductModal = ({ category, hideModal }) => {
 				</div>
 				<div className="body">
 					<div className="product-list">
-						{products.map((product, index) => {
-							const { title, img, description, fields } = product;
+						{data?.map((product, index) => {
+							const { name, img, description, fields } = product;
 							return (
 								<div
 									className="product"
 									key={`category-product-${index}-${Date.now()}`}
 								>
-									<img src={img} alt={title.ru} />
+									<img src={img} alt={name.en} />
 									<div className="details">
-										<div className="title">{title.ru}</div>
-										<p>{description.ru}</p>
+										<div className="title">{name[lang]}</div>
+										<p>{description[lang]}</p>
 										<div className="fields">
-											{fields.map((f, i) => {
-												return (
-													<div className="field" key={`product-field-${i}`}>
-														<div className="field-key">{f.title.ru}</div>
-														<div className="field-value">{f.value.ru}</div>
-													</div>
-												);
-											})}
+											<div className="field">
+												<div className="field-key">{fields.one.label[lang]}</div>
+												<div className="field-value">{fields.one.value[lang]}</div>
+											</div>
+											<div className="field">
+												<div className="field-key">{fields.two.label[lang]}</div>
+												<div className="field-value">{fields.two.value[lang]}</div>
+											</div>
 										</div>
 									</div>
 								</div>

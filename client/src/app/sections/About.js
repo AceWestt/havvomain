@@ -1,24 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Section from '../components/Section';
-import cardImg1 from '../imgs/about_card_img_1.png';
-import cardImg2 from '../imgs/about_card_img_2.png';
-import logoBlue from '../imgs/logoBlue.svg';
-import proffesionalsIcn from '../imgs/about_point_proffessionals_icn.svg';
-import safeIcn from '../imgs/about_point_safe_icn.svg';
-import qualityIcn from '../imgs/about_point_quality_icn.svg';
+import aboutPointsSlideLeft from '../imgs/about-points-slide-left.svg';
+import aboutPointsSlideRight from '../imgs/about-points-slide-right.svg';
 import { gsap } from 'gsap';
 import { useAppContext } from '../context';
+import { useAxiosGet } from '../../common/hooks/useAxiosGet';
 
 const About = () => {
+	const { data } = useAxiosGet('/api/aboutscreen');
+
 	const titleRef = useRef(null);
 	const cardListRef = useRef(null);
 	const pointsRef = useRef(null);
 
-	const { aboutSectionRef } = useAppContext();
+	const { lang, smallScreen, aboutSectionRef } = useAppContext();
 
 	useEffect(() => {
 		gsap.set(titleRef.current, { y: 20, opacity: 0 });
-		gsap.set(pointsRef.current.children, { y: 20, opacity: 0 });
+
 		gsap.set(cardListRef.current.children, { y: 20, opacity: 0 });
 		gsap.to(titleRef.current, {
 			opacity: 1,
@@ -27,17 +26,25 @@ const About = () => {
 				trigger: titleRef.current,
 			},
 		});
-		gsap.to(pointsRef.current.children, {
-			opacity: 1,
-			y: 0,
-			scrollTrigger: {
-				trigger: pointsRef.current,
-				start: '50% 100%',
-			},
-			stagger: {
-				each: 0.2,
-			},
-		});
+		if (!smallScreen) {
+			gsap.set(pointsRef.current.children, {
+				y: 20,
+				opacity: 0,
+			});
+			gsap.to(pointsRef.current.children, {
+				opacity: 1,
+				y: 0,
+				scrollTrigger: {
+					trigger: pointsRef.current,
+					start: '50% 100%',
+				},
+				stagger: {
+					each: 0.2,
+				},
+				clearProps: 'all',
+			});
+		}
+
 		gsap.to(cardListRef.current.children, {
 			opacity: 1,
 			y: 0,
@@ -49,61 +56,54 @@ const About = () => {
 				each: 0.2,
 			},
 		});
-	}, []);
+	}, [smallScreen]);
 
 	return (
 		<Section
 			className="about-section"
-			sectionTitle="О нас"
+			sectionTitle={data?.blockTitle[lang]}
 			titleRef={titleRef}
 			sectionRef={aboutSectionRef}
 		>
 			<div className="about-us-text">
-				<h2>
-					Havvo Group - это молодой и динамично развивающийся агрохолдинг, созданный
-					в 2019г.
-				</h2>
-				<p>
-					Включает в себя группу компаний: ООО “Havvo Group”, ООО “Havvo Agro Food”,
-					ООО “Havvo Trust”, ООО “Havvo Noble” СНГ Основной деятельностью нашего
-					агрохолдинга является экспорт и импорт сезонной сельскохозяйственной
-					продукции, сухофруктов и орехов. Численность сотрудников составляет – 20
-					человек, каждый из которых является высококвалифицированным и компетентным
-					профессионалом в своей отрасли. Ежегодный экспортный оборот холдинга
-					составляет около 30 млн. долларов США, оборот по импорту – около 10 млн.
-					долларов США.
-				</p>
+				<h2>{data?.title[lang]}</h2>
+				<p>{data?.text[lang]}</p>
 			</div>
 			<div className="cards" ref={cardListRef}>
-				<Card type="logo" img={logoBlue} customClass="logo-card" />
+				<Card type="logo" img={data?.logoCard} customClass="logo-card" />
 				<Card
 					type="counter"
-					counter={{ number: 20, text: 'Сотрудников в штате компании' }}
+					counter={{
+						number: data?.workerCard.number,
+						text: data?.workerCard.text[lang],
+					}}
 					customClass="workers"
 				/>
-				<Card type="img" img={cardImg1} customClass="img-card-one" />
-
+				<Card type="img" img={data?.firstImgCard} customClass="img-card-one" />
 				<Card
 					type="counter"
-					counter={{ number: 195, text: 'Тонн реализованной продукции' }}
+					counter={{
+						number: data?.realProduct.number,
+						text: data?.realProduct.text[lang],
+					}}
 					customClass="produced"
 				/>
-				<Card type="img" img={cardImg2} customClass="img-card-two" />
+				<Card type="img" img={data?.secondImgCard} customClass="img-card-two" />
 				<Card
 					type="counter"
-					counter={{ number: 2, text: 'Года на рынке' }}
+					counter={{
+						number: data?.marketYear.number,
+						text: data?.marketYear.text[lang],
+					}}
 					customClass="market"
 				/>
 			</div>
-			<div className="points" ref={pointsRef}>
-				<Point
-					icon={proffesionalsIcn}
-					customClass="proffessionals"
-					text="Являемся специалистами экспортно-импортных операций"
-				/>
-				<Point icon={safeIcn} customClass="safe" text="Безопасная упаковка" />
-				<Point icon={qualityIcn} customClass="quality" text="Высшее качество" />
-			</div>
+			<Points
+				lang={lang}
+				smallScreen={smallScreen}
+				pointsRef={pointsRef}
+				data={data}
+			/>
 		</Section>
 	);
 };
@@ -117,19 +117,27 @@ const Card = ({
 	customClass = '',
 }) => {
 	const [counting, setCounting] = useState(0);
+	const cardRef = useRef(null);
 	useEffect(() => {
-		let interval;
-		if (counter) {
-			if (counting < counter.number) {
-				interval = setInterval(() => {
-					setCounting(counting + 1);
-				}, 100);
-			}
-			return () => {
-				clearInterval(interval);
-			};
+		const target = {
+			v: 0,
+		};
+		if (type === 'counter') {
+			gsap.to(target, {
+				scrollTrigger: {
+					trigger: cardRef.current,
+					start: '0 70%',
+				},
+				duration: 3,
+				v: `+=${counter.number}`,
+				roundProps: 'v',
+				ease: 'none',
+				onUpdate: () => {
+					setCounting(target.v);
+				},
+			});
 		}
-	}, [counting, counter]);
+	}, [counter?.number, type]);
 	switch (type) {
 		case 'logo':
 			return (
@@ -139,7 +147,7 @@ const Card = ({
 			);
 		case 'counter':
 			return (
-				<div className={`card counter ${customClass}`}>
+				<div className={`card counter ${customClass}`} ref={cardRef}>
 					<span className="number">{counting}+</span>
 					<span className="text">{counter?.text}</span>
 				</div>
@@ -153,10 +161,84 @@ const Card = ({
 	}
 };
 
-const Point = ({ icon, text, customClass = '' }) => {
+const Points = ({ pointsRef, smallScreen, lang, data }) => {
+	const [activeIndex, setActiveIndex] = useState(0);
+	const lastIndex = 2;
+	useEffect(() => {
+		if (activeIndex < 0) {
+			setActiveIndex(lastIndex);
+		}
+		if (activeIndex > lastIndex) {
+			setActiveIndex(0);
+		}
+	}, [activeIndex]);
+
+	useEffect(() => {
+		let slider = setInterval(() => {
+			setActiveIndex(activeIndex + 1);
+		}, 5000);
+		return () => {
+			clearInterval(slider);
+		};
+	}, [activeIndex]);
+
+	const getPositionClass = (index) => {
+		let position = 'next-slide';
+		if (index === activeIndex) {
+			position = 'active-slide';
+		}
+		if (index === activeIndex - 1 || (activeIndex === 0 && index === lastIndex)) {
+			position = 'last-slide';
+		}
+		return position;
+	};
+	return (
+		<div className="points" ref={pointsRef}>
+			<Point
+				icon={data?.firstPoint.icon}
+				customClass={`proffessionals ${smallScreen ? getPositionClass(0) : ''}`}
+				text={data?.firstPoint.text[lang]}
+				bgColor={data?.firstPoint.color}
+			/>
+			<Point
+				customClass={`safe ${smallScreen ? getPositionClass(1) : ''}`}
+				icon={data?.secondPoint.icon}
+				text={data?.secondPoint.text[lang]}
+				bgColor={data?.secondPoint.color}
+			/>
+			<Point
+				customClass={`quality ${smallScreen ? getPositionClass(2) : ''}`}
+				icon={data?.thirdPoint.icon}
+				text={data?.thirdPoint.text[lang]}
+				bgColor={data?.thirdPoint.color}
+			/>
+			{smallScreen && (
+				<div className="slider-controls">
+					<div
+						className="control slide-left"
+						onClick={() => setActiveIndex(activeIndex - 1)}
+					>
+						<img src={aboutPointsSlideLeft} alt="slide-left" />
+					</div>
+					<div
+						className="control slide-right"
+						onClick={() => setActiveIndex(activeIndex + 1)}
+					>
+						<img src={aboutPointsSlideRight} alt="slide-right" />
+					</div>
+				</div>
+			)}
+		</div>
+	);
+};
+
+const Point = ({ icon, text, customClass = '', bgColor = '' }) => {
+	const myStyle = {
+		background: bgColor,
+	};
 	return (
 		<div className={`point ${customClass}`}>
-			<div className="icon-holder">
+			<div className="icon-holder" style={bgColor ? myStyle : {}}>
 				<img src={icon} alt="point-icon" />
 			</div>
 			<p>{text}</p>
