@@ -24,10 +24,13 @@ import { BsGear } from 'react-icons/bs';
 import { VscSignOut } from 'react-icons/vsc';
 import { GiGreenhouse } from 'react-icons/gi';
 import { HiOutlineViewGridAdd } from 'react-icons/hi';
+import { GiFruitBowl } from 'react-icons/gi';
+import { MdMyLocation } from 'react-icons/md';
 import MainScreen from './screens/MainScreen';
 import AboutScreen from './screens/AboutScreen';
 import OthersScreen from './screens/OthersScreen';
 import Products from './screens/Products';
+import Locations from './screens/Locations';
 
 const styles = {
 	sidebar: {
@@ -172,7 +175,7 @@ const AdminRouter = () => {
 								>
 									<Dropdown.Item
 										eventkey="2-1"
-										icon={<Icon as={AiOutlineHome} />}
+										icon={<Icon as={GiFruitBowl} />}
 										as={RouterLink}
 										to={`${match.path}/products`}
 										active={activeSideNavIndex === 3}
@@ -181,6 +184,18 @@ const AdminRouter = () => {
 										}}
 									>
 										Продукция
+									</Dropdown.Item>
+									<Dropdown.Item
+										eventkey="2-2"
+										icon={<Icon as={MdMyLocation} />}
+										as={RouterLink}
+										to={`${match.path}/locations`}
+										active={activeSideNavIndex === 4}
+										onClick={() => {
+											setActiveSideNavIndex(4);
+										}}
+									>
+										Локации на карте
 									</Dropdown.Item>
 								</Dropdown>
 							</Nav>
@@ -211,6 +226,7 @@ const AdminRouter = () => {
 									component={OthersScreen}
 								/>
 								<Route exact path={`${match.path}/products`} component={Products} />
+								<Route exact path={`${match.path}/locations`} component={Locations} />
 							</Switch>
 						</Container>
 					</Content>

@@ -22,6 +22,8 @@ const MultiLangInputField = React.forwardRef((props, ref) => {
 		enerror,
 		popoverProps,
 		textarea,
+		multiText = 'ru/en',
+		tooltipText = 'Поле имеет значение на двух языках',
 	} = props;
 	const mergedStyles = { ...defaultStyle, styles };
 	return (
@@ -43,9 +45,9 @@ const MultiLangInputField = React.forwardRef((props, ref) => {
 					<Whisper
 						placement="auto"
 						trigger="hover"
-						speaker={<Tooltip>Поле имеет значение на двух языках</Tooltip>}
+						speaker={<Tooltip>{tooltipText}</Tooltip>}
 					>
-						<span>ru/en</span>
+						<span>{multiText}</span>
 					</Whisper>
 				</InputGroup.Addon>
 				{textarea ? (

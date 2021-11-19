@@ -18,7 +18,7 @@ import descInst from '../../../imgs/instructions/product-cat-description.jpg';
 import imgInst from '../../../imgs/instructions/product-cat-img.jpg';
 
 const EditCat = React.forwardRef((props, ref) => {
-	const { open, onClose, cat } = props;
+	const { open, onClose, cat, fetchData } = props;
 
 	const model = Schema.Model({
 		nameRu: Schema.Types.StringType().isRequired(
@@ -149,6 +149,8 @@ const EditCat = React.forwardRef((props, ref) => {
 
 				if (data.status === 'success') {
 					setIsReady(true);
+					fetchData();
+					setIsEditable(false);
 					onClose();
 					toaster.push(successMessage(), {
 						placement: messagePlacement,

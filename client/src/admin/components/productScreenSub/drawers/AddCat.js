@@ -17,7 +17,7 @@ import descInst from '../../../imgs/instructions/product-cat-description.jpg';
 import imgInst from '../../../imgs/instructions/product-cat-img.jpg';
 
 const AddCat = React.forwardRef((props, ref) => {
-	const { open, onClose } = props;
+	const { open, onClose, fetchData } = props;
 
 	const model = Schema.Model({
 		nameRu: Schema.Types.StringType().isRequired(
@@ -134,6 +134,7 @@ const AddCat = React.forwardRef((props, ref) => {
 				if (data.status === 'success') {
 					setIsReady(true);
 					setFormValue(defaultFormValue);
+					fetchData();
 					onClose();
 					toaster.push(successMessage(), {
 						placement: messagePlacement,

@@ -24,6 +24,7 @@ app.use('/api/mainscreen', require('./routes/mainscreen'));
 app.use('/api/aboutscreen', require('./routes/aboutscreen'));
 app.use('/api/othersscreen', require('./routes/othersscreen'));
 app.use('/api/products', require('./routes/product'));
+app.use('/api/locations', require('./routes/locations'));
 app.use('/api/public', express.static('client/public'));
 
 app.use(errorHandler);

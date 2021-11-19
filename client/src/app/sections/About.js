@@ -16,16 +16,8 @@ const About = () => {
 	const { lang, smallScreen, aboutSectionRef } = useAppContext();
 
 	useEffect(() => {
-		gsap.set(titleRef.current, { y: 20, opacity: 0 });
-
 		gsap.set(cardListRef.current.children, { y: 20, opacity: 0 });
-		gsap.to(titleRef.current, {
-			opacity: 1,
-			y: 0,
-			scrollTrigger: {
-				trigger: titleRef.current,
-			},
-		});
+
 		if (!smallScreen) {
 			gsap.set(pointsRef.current.children, {
 				y: 20,
@@ -57,6 +49,19 @@ const About = () => {
 			},
 		});
 	}, [smallScreen]);
+
+	useEffect(() => {
+		if (data) {
+			gsap.set(titleRef.current, { y: 20, opacity: 0 });
+			gsap.to(titleRef.current, {
+				opacity: 1,
+				y: 0,
+				scrollTrigger: {
+					trigger: titleRef.current,
+				},
+			});
+		}
+	}, [data]);
 
 	return (
 		<Section

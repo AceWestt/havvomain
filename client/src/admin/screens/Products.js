@@ -100,7 +100,7 @@ const Products = () => {
 		}
 	}, [showingId, productsData]);
 
-	const productCategories = data?.reverse().slice(0, data?.length);
+	const productCategories = data?.slice(0, data?.length);
 
 	const errorMessage = (error) => {
 		return (
@@ -246,17 +246,17 @@ const Products = () => {
 
 			<AddCat
 				open={open}
+				fetchData={fetchData}
 				onClose={() => {
 					setOpen(false);
-					fetchData();
 				}}
 			/>
 			<EditCat
 				open={isEditing}
+				fetchData={fetchData}
 				onClose={() => {
 					setIsEditing(false);
 					setEditedCat({});
-					fetchData();
 				}}
 				cat={editedCat}
 			/>
@@ -271,18 +271,18 @@ const Products = () => {
 			<AddProduct
 				open={isAdding}
 				cat_id={addingId}
+				fetchProductData={fetchProductData}
 				onClose={() => {
 					setIsAdding(false);
 					setShowingId(addingId);
 					setAddingId(null);
-					fetchProductData();
 				}}
 			/>
 			<EditProduct
 				open={isEditingProduct}
 				data={editedProdcut}
+				fetchProductData={fetchProductData}
 				onClose={() => {
-					fetchProductData();
 					setIsEditingProduct(false);
 				}}
 			/>

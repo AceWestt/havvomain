@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import Button from '../components/Button';
 import Section from '../components/Section';
 import bg from '../imgs/products_bg.svg';
-import { sampleData } from '../sampleData';
 import Modal from '../components/Modal';
 import modalCloseIcn from '../imgs/modal-close-icn.svg';
 import { gsap } from 'gsap';
@@ -34,7 +33,6 @@ const Products = () => {
 
 	useEffect(() => {
 		gsap.set(titleRef.current, { y: 20, opacity: 0 });
-		gsap.set(productsRef.current.children, { y: 20, opacity: 0 });
 
 		gsap.to(titleRef.current, {
 			opacity: 1,
@@ -43,18 +41,24 @@ const Products = () => {
 				trigger: titleRef.current,
 			},
 		});
-		gsap.to(productsRef.current.children, {
-			opacity: 1,
-			y: 0,
-			scrollTrigger: {
-				trigger: productsRef.current,
-				start: '300px 100%',
-			},
-			stagger: {
-				each: 0.2,
-			},
-		});
 	}, []);
+
+	useEffect(() => {
+		if (categories && categories.length > 0) {
+			gsap.set(productsRef.current.children, { y: 20, opacity: 0 });
+			gsap.to(productsRef.current.children, {
+				opacity: 1,
+				y: 0,
+				scrollTrigger: {
+					trigger: productsRef.current,
+					start: '300px 100%',
+				},
+				stagger: {
+					each: 0.2,
+				},
+			});
+		}
+	}, [categories]);
 
 	return (
 		<>

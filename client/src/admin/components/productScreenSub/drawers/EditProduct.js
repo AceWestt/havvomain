@@ -19,7 +19,7 @@ import descInst from '../../../imgs/instructions/product-description.jpg';
 import fieldInst from '../../../imgs/instructions/product-fields.jpg';
 
 const AddProduct = React.forwardRef((props, ref) => {
-	const { open, onClose, data } = props;
+	const { open, onClose, data, fetchProductData } = props;
 
 	const model = Schema.Model({
 		img: Schema.Types.ArrayType().of(
@@ -199,6 +199,7 @@ const AddProduct = React.forwardRef((props, ref) => {
 				if (res.data.status === 'success') {
 					setIsReady(true);
 					setFormValue(defaultFormValue);
+					fetchProductData();
 					onClose();
 					toaster.push(successMessage(), {
 						placement: messagePlacement,
