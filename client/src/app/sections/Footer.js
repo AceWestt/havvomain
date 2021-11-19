@@ -6,15 +6,83 @@ import Button from '../components/Button';
 import { gsap } from 'gsap';
 import { useAppContext } from '../context';
 import { useAxiosGet } from '../../common/hooks/useAxiosGet';
+import { Message, toaster } from 'rsuite';
+import axios from 'axios';
 
 const Footer = () => {
 	const { data } = useAxiosGet('/api/othersscreen');
+	const { data: contactData } = useAxiosGet('/api/contactscreen');
 
 	const { lang, contactSectionRef } = useAppContext();
 
+	const successMessage = (type, msg) => {
+		return (
+			<Message showIcon type={type} duration={5000}>
+				{msg}
+			</Message>
+		);
+	};
+
 	const { register, handleSubmit } = useForm();
-	const onSubmit = (data) => {
-		console.log(data);
+	const onSubmit = async (data) => {
+		const { message, phone, name } = data.user;
+		if (!message) {
+			toaster.push(successMessage('error', 'Вы не указали имя'), {
+				placement: 'bottomEnd',
+			});
+		}
+		if (!phone) {
+			toaster.push(successMessage('error', 'Вы не указали телефон'), {
+				placement: 'bottomEnd',
+			});
+		}
+		if (!message) {
+			toaster.push(successMessage('error', 'Вы ничего не написали'), {
+				placement: 'bottomEnd',
+			});
+		}
+		if (message && phone && name) {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			};
+
+			try {
+				const { data } = await axios.post(
+					'/api/message',
+					{
+						message,
+						name,
+						phone,
+					},
+					config
+				);
+				if (data.status === 'success') {
+					toaster.push(
+						successMessage(
+							'success',
+							'Сообщение отправлено. Наш оператор скоро с вами свяжется'
+						),
+						{ placement: 'bottomEnd' }
+					);
+				} else {
+					toaster.push(
+						successMessage('error', 'Ошибка. Повторите еще раз пожалуйста'),
+						{
+							placement: 'bottomEnd',
+						}
+					);
+				}
+			} catch (error) {
+				toaster.push(
+					successMessage('error', 'Ошибка. Повторите еще раз пожалуйста'),
+					{
+						placement: 'bottomEnd',
+					}
+				);
+			}
+		}
 	};
 
 	const headRef = useRef(null);
@@ -80,14 +148,22 @@ const Footer = () => {
 			</div>
 			<div className="body">
 				<div className="column contact-details" ref={firstColumnRef}>
-					{contactDetails.map((c, i) => {
-						return (
-							<div className="row detail" key={`contact-detail-${i}`}>
-								<label>{c.title.ru}</label>
-								<p>{c.value.ru}</p>
-							</div>
-						);
-					})}
+					<div className="row detail">
+						<label>Адрес</label>
+						<p>{contactData?.address[lang]}</p>
+					</div>
+					<div className="row detail">
+						<label>Номер телефона: </label>
+						<p>{contactData?.phone[lang]}</p>
+					</div>
+					<div className="row detail">
+						<label>E-mail: </label>
+						<p>{contactData?.email[lang]}</p>
+					</div>
+					<div className="row detail worktime">
+						<label>Режим работы: </label>
+						<p>{contactData?.worktime[lang]}</p>
+					</div>
 				</div>
 				<form
 					className="column contact-form"
@@ -134,34 +210,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-const contactDetails = [
-	{
-		title: { ru: 'Адрес', en: 'Address' },
-		value: {
-			ru: 'Узбекистан, г. Ташкент улица Юнусабад, д. 9',
-			en: 'Узбекистан, г. Ташкент улица Юнусабад, д. 9',
-		},
-	},
-	{
-		title: { ru: 'Номер телефона', en: 'Phone' },
-		value: {
-			ru: '(97) 355-55-55',
-			en: '(97) 355-55-55',
-		},
-	},
-	{
-		title: { ru: 'E-mail', en: 'E-mail' },
-		value: {
-			ru: 'info@havvogroup.uz',
-			en: 'info@havvogroup.uz',
-		},
-	},
-	{
-		title: { ru: 'Режим работы:', en: 'Режим работы:' },
-		value: {
-			ru: 'Пн - Пт с 9:00 до 18:00 Сб - Вс выходной',
-			en: 'Пн - Пт с 9:00 до 18:00 Сб - Вс выходной',
-		},
-	},
-];

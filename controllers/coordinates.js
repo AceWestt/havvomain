@@ -51,9 +51,8 @@ exports.updateContinent = async (req, res, next) => {
 exports.deleteContinent = async (req, res, next) => {
 	try {
 		const id = req.params.id;
-		const continent = await Continent.findById(id);
 
-		await continent.deleteOne({ _id: id });
+		await Continent.deleteOne({ _id: id });
 		res.status(200).json({ status: 'success' });
 	} catch (error) {
 		next(error);
@@ -115,9 +114,7 @@ exports.deleteLocation = async (req, res, next) => {
 	try {
 		const id = req.params.id;
 
-		const location = await Location.findById(id);
-
-		await location.deleteOne({ _id: id });
+		await Location.deleteOne({ _id: id });
 		res.status(200).json({ status: 'success' });
 	} catch (error) {
 		next(error);

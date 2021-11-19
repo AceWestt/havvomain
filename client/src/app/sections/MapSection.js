@@ -16,6 +16,7 @@ const MapSection = () => {
 	const [activeContinent, setActiveContinent] = useState(null);
 	const [locations, setLocations] = useState([]);
 	const { data: locationsData } = useAxiosGet(`/api/locations/locations/`);
+	const { data: contactData } = useAxiosGet('/api/contactscreen');
 
 	useEffect(() => {
 		if (continents && continents.length > 0) {
@@ -131,14 +132,19 @@ const MapSection = () => {
 										/>
 									);
 								})}
-							<Placemark
-								geometry={[41.3775, 64.5853]}
-								options={{
-									iconLayout: 'default#image',
-									iconImageHref: mapPointMainIcn,
-									iconImageSize: [150, 70],
-								}}
-							/>
+							{contactData && contactData.officeCoords && (
+								<Placemark
+									geometry={[
+										contactData.officeCoords.long,
+										contactData.officeCoords.lat,
+									]}
+									options={{
+										iconLayout: 'default#image',
+										iconImageHref: mapPointMainIcn,
+										iconImageSize: [150, 70],
+									}}
+								/>
+							)}
 						</Map>
 					)}
 				</YMaps>

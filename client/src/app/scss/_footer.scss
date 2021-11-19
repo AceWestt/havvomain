@@ -43,6 +43,7 @@
 			width: 100%;
 			padding: 40px 0;
 			align-items: flex-start;
+			gap: 60px;
 			border-bottom: 1px solid $grey;
 			@media screen and (max-width: $mobileBreakPoint) {
 				border-bottom: transparent;
@@ -69,7 +70,7 @@
 				}
 				p {
 					color: $greyLighter;
-					font-size: 22px;
+					font-size: 20px;
 					line-height: 25px;
 					margin: 22px 0 0 0;
 					max-width: 240px;
@@ -105,6 +106,13 @@
 					width: 153px;
 					@media screen and (max-width: $mobileBreakPoint) {
 						width: 43.467vw;
+					}
+				}
+				&.worktime,
+				&.submit {
+					padding-left: 40px;
+					@media screen and (max-width: $mobileBreakPoint) {
+						padding-left: 0;
 					}
 				}
 			}

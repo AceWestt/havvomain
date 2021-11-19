@@ -25,12 +25,14 @@ import { VscSignOut } from 'react-icons/vsc';
 import { GiGreenhouse } from 'react-icons/gi';
 import { HiOutlineViewGridAdd } from 'react-icons/hi';
 import { GiFruitBowl } from 'react-icons/gi';
-import { MdMyLocation } from 'react-icons/md';
+import { MdMyLocation, MdConnectWithoutContact } from 'react-icons/md';
 import MainScreen from './screens/MainScreen';
 import AboutScreen from './screens/AboutScreen';
 import OthersScreen from './screens/OthersScreen';
 import Products from './screens/Products';
 import Locations from './screens/Locations';
+import ContactScreen from './screens/ContactScreen';
+import Messages from './screens/Messages';
 
 const styles = {
 	sidebar: {
@@ -198,6 +200,36 @@ const AdminRouter = () => {
 										Локации на карте
 									</Dropdown.Item>
 								</Dropdown>
+								<Dropdown
+									eventKey="3"
+									title="Обратная связь и контакты"
+									icon={<Icon as={MdConnectWithoutContact} />}
+								>
+									<Dropdown.Item
+										eventkey="2-1"
+										icon={<Icon as={GiFruitBowl} />}
+										as={RouterLink}
+										to={`${match.path}/contact`}
+										active={activeSideNavIndex === 5}
+										onClick={() => {
+											setActiveSideNavIndex(5);
+										}}
+									>
+										Контактные данные
+									</Dropdown.Item>
+									<Dropdown.Item
+										eventkey="2-2"
+										icon={<Icon as={MdMyLocation} />}
+										as={RouterLink}
+										to={`${match.path}/inbox`}
+										active={activeSideNavIndex === 6}
+										onClick={() => {
+											setActiveSideNavIndex(6);
+										}}
+									>
+										Обратная связь
+									</Dropdown.Item>
+								</Dropdown>
 							</Nav>
 						</Sidenav.Body>
 					</Sidenav>
@@ -227,6 +259,8 @@ const AdminRouter = () => {
 								/>
 								<Route exact path={`${match.path}/products`} component={Products} />
 								<Route exact path={`${match.path}/locations`} component={Locations} />
+								<Route exact path={`${match.path}/contact`} component={ContactScreen} />
+								<Route exact path={`${match.path}/inbox`} component={Messages} />
 							</Switch>
 						</Container>
 					</Content>
