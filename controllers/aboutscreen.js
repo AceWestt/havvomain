@@ -1,4 +1,4 @@
-const AboutScreen = require('../models/AboutScreen');
+const AboutScreen = require('../models/Aboutscreen');
 const ErrorResponse = require('../utils/errorResponse');
 const fs = require('fs/promises');
 const crypto = require('crypto');
