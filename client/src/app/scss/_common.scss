@@ -33,7 +33,7 @@ button {
 	cursor: pointer;
 	padding: 12px 10px;
 	font-size: 14px;
-	border-radius: 20px;
+	border-radius: 1000px;
 	text-align: center;
 	font-weight: 500;
 	border: 2px solid transparent;
@@ -41,7 +41,6 @@ button {
 		padding: 3.2vw 0;
 		font-size: 3.2vw;
 		line-height: 3.733vw;
-		border-radius: 5.333vw;
 		border: 0.533vw solid transparent;
 	}
 	&.btn-primary {
