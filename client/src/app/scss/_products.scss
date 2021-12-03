@@ -72,11 +72,13 @@
 					line-height: 18px;
 					margin: 28px 0;
 					max-width: 200px;
+					width: 200px;
 					@media screen and (max-width: $mobileBreakPoint) {
 						font-size: 4vw;
 						line-height: 4.8vw;
 						margin: 4.8vw 0;
 						max-width: 53.333vw;
+						width: auto;
 						text-align: center;
 					}
 				}
