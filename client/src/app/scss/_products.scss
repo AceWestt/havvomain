@@ -57,12 +57,14 @@
 					}
 				}
 				.title {
+					width: 200px;
 					font-size: 32px;
 					line-height: 36px;
 					font-weight: 500;
 					@media screen and (max-width: $mobileBreakPoint) {
 						font-size: 4.8vw;
 						line-height: 5.333vw;
+						width: auto;
 					}
 				}
 				p {
@@ -80,7 +82,9 @@
 				}
 				.btn {
 					width: 164px;
+					margin-left: -36px;
 					@media screen and (max-width: $mobileBreakPoint) {
+						margin-left: 0;
 						width: auto;
 						border: transparent;
 						padding: 0;
