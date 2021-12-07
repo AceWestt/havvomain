@@ -173,6 +173,52 @@ const AboutScreen = () => {
 		thirdPointTextEn: Schema.Types.StringType().isRequired(
 			'Введите текст на английском!'
 		),
+		fourthPointColor: Schema.Types.StringType()
+			.isRequired('Введите hex код цвета!')
+			.rangeLength(7, 7, 'Введитие цветовой код полностью!'),
+		fourthPointIcon: Schema.Types.ArrayType().of(
+			Schema.Types.ObjectType().shape({
+				blobFile: Schema.Types.ObjectType().shape({
+					name: Schema.Types.StringType().pattern(
+						/^.*\.(gif|svg)$/i,
+						'Неверный формат файла! Разрешены "svg" и "gif" '
+					),
+					size: Schema.Types.NumberType().max(
+						204800,
+						'Размер файла не может превышать 200kb'
+					),
+				}),
+			})
+		),
+		fourthPointTextRu: Schema.Types.StringType().isRequired(
+			'Введите текст на русском!'
+		),
+		fourthPointTextEn: Schema.Types.StringType().isRequired(
+			'Введите текст на английском!'
+		),
+		fifthPointColor: Schema.Types.StringType()
+			.isRequired('Введите hex код цвета!')
+			.rangeLength(7, 7, 'Введитие цветовой код полностью!'),
+		fifthPointIcon: Schema.Types.ArrayType().of(
+			Schema.Types.ObjectType().shape({
+				blobFile: Schema.Types.ObjectType().shape({
+					name: Schema.Types.StringType().pattern(
+						/^.*\.(gif|svg)$/i,
+						'Неверный формат файла! Разрешены "svg" и "gif" '
+					),
+					size: Schema.Types.NumberType().max(
+						204800,
+						'Размер файла не может превышать 200kb'
+					),
+				}),
+			})
+		),
+		fifthPointTextRu: Schema.Types.StringType().isRequired(
+			'Введите текст на русском!'
+		),
+		fifthPointTextEn: Schema.Types.StringType().isRequired(
+			'Введите текст на английском!'
+		),
 	});
 
 	const formRef = useRef(null);
@@ -208,6 +254,14 @@ const AboutScreen = () => {
 		thirdPointIcon: [],
 		thirdPointTextRu: '',
 		thirdPointTextEn: '',
+		fourthPointColor: '',
+		fourthPointIcon: [],
+		fourthPointTextRu: '',
+		fourthPointTextEn: '',
+		fifthPointColor: '',
+		fifthPointIcon: [],
+		fifthPointTextRu: '',
+		fifthPointTextEn: '',
 	});
 
 	const [isReady, setIsReady] = useState(false);
@@ -262,6 +316,14 @@ const AboutScreen = () => {
 				thirdPointIcon: [],
 				thirdPointTextRu: data.thirdPoint.text.ru,
 				thirdPointTextEn: data.thirdPoint.text.en,
+				fourthPointColor: data.fourthPoint.color,
+				fourthPointIcon: [],
+				fourthPointTextRu: data.fourthPoint.text.ru,
+				fourthPointTextEn: data.fourthPoint.text.en,
+				fifthPointColor: data.fifthPoint.color,
+				fifthPointIcon: [],
+				fifthPointTextRu: data.fifthPoint.text.ru,
+				fifthPointTextEn: data.fifthPoint.text.en,
 			});
 		}
 	}, [data, success, error]);
@@ -392,6 +454,34 @@ const AboutScreen = () => {
 			formData.append(
 				'thirdPointIcon',
 				formValue.thirdPointIcon?.[0]?.blobFile || null
+			);
+			formData.append(
+				'fourthPoint',
+				JSON.stringify({
+					text: {
+						ru: formValue.fourthPointTextRu,
+						en: formValue.fourthPointTextEn,
+					},
+					color: formValue.fourthPointColor,
+				})
+			);
+			formData.append(
+				'fourthPointIcon',
+				formValue.fourthPointIcon?.[0]?.blobFile || null
+			);
+			formData.append(
+				'fifthPoint',
+				JSON.stringify({
+					text: {
+						ru: formValue.fifthPointTextRu,
+						en: formValue.fifthPointTextEn,
+					},
+					color: formValue.fifthPointColor,
+				})
+			);
+			formData.append(
+				'fifthPointIcon',
+				formValue.fifthPointIcon?.[0]?.blobFile || null
 			);
 
 			const config = {
@@ -735,6 +825,92 @@ const AboutScreen = () => {
 				}}
 				ruerror={formError.thirdPointTextRu}
 				enerror={formError.thirdPointTextEn}
+			/>
+
+			<MaskedField
+				name="fourthPointColor"
+				label="Цветовой код фона четвертой бирки (hex)"
+				mask="#******"
+				popoverProps={{
+					text: 'Цветовой код фона четвертой бирки (hex)',
+					img: thirdPointInst,
+				}}
+				error={formError.fourthPointColor}
+			/>
+
+			<FileUploader
+				label="Иконка на четвертой бирки"
+				name="fourthPointIcon"
+				disabled={formValue.fourthPointIcon.length > 0}
+				oldImg={data?.fourthPoint.icon}
+				popoverProps={{
+					text: 'Иконка на четвертой бирки',
+					img: thirdPointInst,
+				}}
+				errExt={
+					formError.fourthPointIcon?.array?.[0]?.object?.blobFile?.object?.name
+						?.errorMessage
+				}
+				errSize={
+					formError.fourthPointIcon?.array?.[0]?.object?.blobFile?.object?.size
+						?.errorMessage
+				}
+			/>
+
+			<MultiLangInputField
+				runame="fourthPointTextRu"
+				enname="fourthPointTextEn"
+				label="Текст на четвертой бирки"
+				textarea
+				popoverProps={{
+					text: 'Текст на четвертой бирки',
+					img: thirdPointInst,
+				}}
+				ruerror={formError.fourthPointTextRu}
+				enerror={formError.fourthPointTextEn}
+			/>
+
+			<MaskedField
+				name="fifthPointColor"
+				label="Цветовой код фона пятой бирки (hex)"
+				mask="#******"
+				popoverProps={{
+					text: 'Цветовой код фона пятой бирки (hex)',
+					img: thirdPointInst,
+				}}
+				error={formError.fifthPointColor}
+			/>
+
+			<FileUploader
+				label="Иконка на пятой бирки"
+				name="fifthPointIcon"
+				disabled={formValue.fifthPointIcon.length > 0}
+				oldImg={data?.fifthPoint.icon}
+				popoverProps={{
+					text: 'Иконка на пятой бирки',
+					img: thirdPointInst,
+				}}
+				errExt={
+					formError.fifthPointIcon?.array?.[0]?.object?.blobFile?.object?.name
+						?.errorMessage
+				}
+				errSize={
+					formError.fifthPointIcon?.array?.[0]?.object?.blobFile?.object?.size
+						?.errorMessage
+				}
+			/>
+
+			<MultiLangInputField
+				runame="fifthPointTextRu"
+				enname="fifthPointTextEn"
+				label="Текст на пятой бирки"
+				textarea
+				popoverProps={{
+					text: 'Текст на пятой бирки',
+					img: thirdPointInst,
+				}}
+				ruerror={formError.fifthPointTextRu}
+				enerror={formError.fifthPointTextEn}
 			/>
 
 			<Form.Group>

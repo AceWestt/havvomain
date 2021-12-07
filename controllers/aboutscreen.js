@@ -38,6 +38,10 @@ exports.update = async (req, res, next) => {
 		screen.secondPoint.color = JSON.parse(body.secondPoint).color;
 		screen.thirdPoint.text = JSON.parse(body.thirdPoint).text;
 		screen.thirdPoint.color = JSON.parse(body.thirdPoint).color;
+		screen.fourthPoint.text = JSON.parse(body.fourthPoint).text;
+		screen.fourthPoint.color = JSON.parse(body.fourthPoint).color;
+		screen.fifthPoint.text = JSON.parse(body.fifthPoint).text;
+		screen.fifthPoint.color = JSON.parse(body.fifthPoint).color;
 
 		const uploadpath = '/files/uploads/aboutscreen/';
 
@@ -102,6 +106,28 @@ exports.update = async (req, res, next) => {
 				'/files/defaults/about/about_point_quality_icn.svg',
 				next,
 				'thirdPointIcon',
+				uploadpath
+			);
+		}
+
+		if (files?.fourthPointIcon) {
+			screen.fourthPoint.icon = await fileUpload(
+				files.fourthPointIcon,
+				screen.fourthPoint.icon,
+				'/files/defaults/about/about_point_quality_icn.svg',
+				next,
+				'fourthPointIcon',
+				uploadpath
+			);
+		}
+
+		if (files?.fifthPointIcon) {
+			screen.fifthPoint.icon = await fileUpload(
+				files.fifthPointIcon,
+				screen.fifthPoint.icon,
+				'/files/defaults/about/about_point_quality_icn.svg',
+				next,
+				'fifthPointIcon',
 				uploadpath
 			);
 		}

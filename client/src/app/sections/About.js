@@ -168,7 +168,7 @@ const Card = ({
 
 const Points = ({ pointsRef, smallScreen, lang, data }) => {
 	const [activeIndex, setActiveIndex] = useState(0);
-	const lastIndex = 2;
+	const lastIndex = 4;
 	useEffect(() => {
 		if (activeIndex < 0) {
 			setActiveIndex(lastIndex);
@@ -216,6 +216,18 @@ const Points = ({ pointsRef, smallScreen, lang, data }) => {
 				icon={data?.thirdPoint.icon}
 				text={data?.thirdPoint.text[lang]}
 				bgColor={data?.thirdPoint.color}
+			/>
+			<Point
+				customClass={`quality ${smallScreen ? getPositionClass(3) : ''}`}
+				icon={data?.fourthPoint.icon}
+				text={data?.fourthPoint.text[lang]}
+				bgColor={data?.fourthPoint.color}
+			/>
+			<Point
+				customClass={`quality ${smallScreen ? getPositionClass(4) : ''}`}
+				icon={data?.fifthPoint.icon}
+				text={data?.fifthPoint.text[lang]}
+				bgColor={data?.fifthPoint.color}
 			/>
 			{smallScreen && (
 				<div className="slider-controls">

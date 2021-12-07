@@ -80,6 +80,24 @@ const AboutScreenSchema = new mongoose.Schema({
 			'Высшее качество uz'
 		),
 	},
+	fourthPoint: {
+		color: { type: String, required: true, default: '#0ecf21' },
+		icon: img('/files/defaults/about/about_point_quality_icn.svg'),
+		text: multiLangString(
+			'Fourth point text needed',
+			'Высшее качество',
+			'Высшее качество uz'
+		),
+	},
+	fifthPoint: {
+		color: { type: String, required: true, default: '#0ecf21' },
+		icon: img('/files/defaults/about/about_point_quality_icn.svg'),
+		text: multiLangString(
+			'Fifth point text needed',
+			'Высшее качество',
+			'Высшее качество uz'
+		),
+	},
 });
 
 const AboutScreen = mongoose.model('Aboutscreen', AboutScreenSchema);
