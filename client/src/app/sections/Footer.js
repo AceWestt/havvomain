@@ -100,7 +100,7 @@ const Footer = () => {
 			y: 0,
 			scrollTrigger: {
 				trigger: contactSectionRef.current,
-				start: '100% 100%',
+				start: '50% 100%',
 				markers: true,
 			},
 			stagger: {
