@@ -139,7 +139,7 @@ const Footer = () => {
 				each: 0.2,
 			},
 		});
-	}, [contactSectionRef]);
+	}, [contactSectionRef, contactData]);
 	return (
 		<Section className="footer-section" sectionRef={contactSectionRef}>
 			<div className="head" ref={headRef}>
