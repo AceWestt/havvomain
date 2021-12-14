@@ -101,6 +101,7 @@ const Footer = () => {
 			scrollTrigger: {
 				trigger: contactSectionRef.current,
 				start: '100% 100%',
+				markers: true,
 			},
 			stagger: {
 				each: 0.2,
@@ -139,7 +140,7 @@ const Footer = () => {
 				each: 0.2,
 			},
 		});
-	}, [contactSectionRef, contactData]);
+	}, [contactSectionRef]);
 	return (
 		<Section className="footer-section" sectionRef={contactSectionRef}>
 			<div className="head" ref={headRef}>
