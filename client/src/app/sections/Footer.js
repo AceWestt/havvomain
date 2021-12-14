@@ -91,55 +91,56 @@ const Footer = () => {
 	const lastRef = useRef(null);
 
 	useEffect(() => {
-		gsap.set(headRef.current.children, { y: 20, opacity: 0 });
-		gsap.set(firstColumnRef.current.children, { y: 20, opacity: 0 });
-		gsap.set(secondColumnRef.current.children, { y: 20, opacity: 0 });
-		gsap.set(lastRef.current.children, { y: 20, opacity: 0 });
-		gsap.to(headRef.current.children, {
-			opacity: 1,
-			y: 0,
-			scrollTrigger: {
-				trigger: contactSectionRef.current,
-				start: '50% 100%',
-				markers: true,
-			},
-			stagger: {
-				each: 0.2,
-			},
-		});
-		gsap.to(firstColumnRef.current.children, {
-			opacity: 1,
-			y: 0,
-			scrollTrigger: {
-				trigger: contactSectionRef.current,
-				start: '100% 100%',
-			},
-			stagger: {
-				each: 0.2,
-			},
-		});
-		gsap.to(secondColumnRef.current.children, {
-			opacity: 1,
-			y: 0,
-			scrollTrigger: {
-				trigger: contactSectionRef.current,
-				start: '100% 100%',
-			},
-			stagger: {
-				each: 0.2,
-			},
-		});
-		gsap.to(lastRef.current.children, {
-			opacity: 1,
-			y: 0,
-			scrollTrigger: {
-				trigger: contactSectionRef.current,
-				start: '100% 100%',
-			},
-			stagger: {
-				each: 0.2,
-			},
-		});
+		if (contactSectionRef.current) {
+			gsap.set(headRef.current.children, { y: 20, opacity: 0 });
+			gsap.set(firstColumnRef.current.children, { y: 20, opacity: 0 });
+			gsap.set(secondColumnRef.current.children, { y: 20, opacity: 0 });
+			gsap.set(lastRef.current.children, { y: 20, opacity: 0 });
+			gsap.to(headRef.current.children, {
+				opacity: 1,
+				y: 0,
+				scrollTrigger: {
+					trigger: contactSectionRef.current,
+					start: '100% 100%',
+				},
+				stagger: {
+					each: 0.2,
+				},
+			});
+			gsap.to(firstColumnRef.current.children, {
+				opacity: 1,
+				y: 0,
+				scrollTrigger: {
+					trigger: contactSectionRef.current,
+					start: '100% 100%',
+				},
+				stagger: {
+					each: 0.2,
+				},
+			});
+			gsap.to(secondColumnRef.current.children, {
+				opacity: 1,
+				y: 0,
+				scrollTrigger: {
+					trigger: contactSectionRef.current,
+					start: '100% 100%',
+				},
+				stagger: {
+					each: 0.2,
+				},
+			});
+			gsap.to(lastRef.current.children, {
+				opacity: 1,
+				y: 0,
+				scrollTrigger: {
+					trigger: contactSectionRef.current,
+					start: '100% 100%',
+				},
+				stagger: {
+					each: 0.2,
+				},
+			});
+		}
 	}, [contactSectionRef]);
 	return (
 		<Section className="footer-section" sectionRef={contactSectionRef}>
