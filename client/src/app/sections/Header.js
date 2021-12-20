@@ -229,7 +229,7 @@ const Header = () => {
 								scrollTo(aboutSectionRef.current);
 							}}
 						>
-							О нас
+							{lang === 'ru' ? 'О нас' : 'About Us'}
 						</div>
 						<div
 							className="menu-item products"
@@ -238,7 +238,7 @@ const Header = () => {
 								scrollTo(productsSectionRef.current);
 							}}
 						>
-							Продукция
+							{lang === 'ru' ? 'Продукция' : 'Products'}
 						</div>
 						<div
 							className="menu-item contact"
@@ -247,7 +247,7 @@ const Header = () => {
 								scrollTo(contactSectionRef.current);
 							}}
 						>
-							Контакты
+							{lang === 'ru' ? 'Контакты' : 'Contacts'}
 						</div>
 					</div>
 					<div className="bottom">
