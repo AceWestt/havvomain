@@ -62,13 +62,20 @@ const Footer = () => {
 					toaster.push(
 						successMessage(
 							'success',
-							'Сообщение отправлено. Наш оператор скоро с вами свяжется'
+							lang === 'ru'
+								? 'Сообщение отправлено. Наш оператор скоро с вами свяжется'
+								: 'Message sent. Our operator will contact you soon'
 						),
 						{ placement: 'bottomEnd' }
 					);
 				} else {
 					toaster.push(
-						successMessage('error', 'Ошибка. Повторите еще раз пожалуйста'),
+						successMessage(
+							'error',
+							lang === 'ru'
+								? 'Ошибка. Повторите еще раз пожалуйста'
+								: 'Error. Please, repeat again'
+						),
 						{
 							placement: 'bottomEnd',
 						}
@@ -76,7 +83,12 @@ const Footer = () => {
 				}
 			} catch (error) {
 				toaster.push(
-					successMessage('error', 'Ошибка. Повторите еще раз пожалуйста'),
+					successMessage(
+						'error',
+						lang === 'ru'
+							? 'Ошибка. Повторите еще раз пожалуйста'
+							: 'Error. Please, repeat again'
+					),
 					{
 						placement: 'bottomEnd',
 					}
@@ -151,11 +163,11 @@ const Footer = () => {
 			<div className="body">
 				<div className="column contact-details" ref={firstColumnRef}>
 					<div className="row detail">
-						<label>Адрес</label>
+						<label>{lang === 'ru' ? 'Адрес:' : 'Address:'}</label>
 						<p>{contactData?.address[lang]}</p>
 					</div>
 					<div className="row detail">
-						<label>Номер телефона: </label>
+						<label>{lang === 'ru' ? 'Номер телефона:' : 'Phone number'} </label>
 						<p>{contactData?.phone[lang]}</p>
 					</div>
 					<div className="row detail">
@@ -163,7 +175,7 @@ const Footer = () => {
 						<p>{contactData?.email[lang]}</p>
 					</div>
 					<div className="row detail worktime">
-						<label>Режим работы: </label>
+						<label>{lang === 'ru' ? 'Режим работы:' : 'Working hours'} </label>
 						<p>{contactData?.worktime[lang]}</p>
 					</div>
 				</div>
@@ -173,15 +185,15 @@ const Footer = () => {
 					ref={secondColumnRef}
 				>
 					<div className="row name">
-						<label>Имя</label>
+						<label>{lang === 'ru' ? 'Имя' : 'Name'}</label>
 						<input
 							type="text"
-							placeholder="Напишите ваше имя"
+							placeholder={lang === 'ru' ? 'Напишите ваше имя' : 'Write your name'}
 							{...register('user.name')}
 						/>
 					</div>
 					<div className="row phone">
-						<label>Номер телефона</label>
+						<label>{lang === 'ru' ? 'Номер телефона' : 'Phone number'}</label>
 						<input
 							type="text"
 							placeholder="(xx) xxx-xx-xx"
@@ -189,16 +201,18 @@ const Footer = () => {
 						/>
 					</div>
 					<div className="row message">
-						<label>Сообщение</label>
+						<label>{lang === 'ru' ? 'Сообщение' : 'Message'}</label>
 						<input
 							type="text"
-							placeholder="Напишите нам сообщение..."
+							placeholder={
+								lang === 'ru' ? 'Напишите нам сообщение...' : 'Write your message...'
+							}
 							{...register('user.message')}
 						/>
 					</div>
 					<div className="row submit">
 						<button type="submit">
-							<Button secondary title="Связаться" />
+							<Button secondary title={lang === 'ru' ? 'Связаться' : 'Send'} />
 						</button>
 					</div>
 				</form>

@@ -109,7 +109,11 @@ const Category = ({ category, customClass = '', showModal, lang }) => {
 				<img src={titleBg} alt="bg" className="bg" />
 				<div className="title">{name[lang]}</div>
 				<p>{description[lang]}</p>
-				<Button title="Подробнее" outline onClick={() => showModal(category)} />
+				<Button
+					title={lang === 'ru' ? 'Подробнее' : 'More'}
+					outline
+					onClick={() => showModal(category)}
+				/>
 			</div>
 		</div>
 	);

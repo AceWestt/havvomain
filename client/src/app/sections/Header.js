@@ -144,19 +144,19 @@ const Header = () => {
 							className="menu-item about"
 							onClick={() => scrollTo(aboutSectionRef.current)}
 						>
-							О нас
+							{lang === 'ru' ? 'О нас' : 'About Us'}
 						</div>
 						<div
 							className="menu-item products"
 							onClick={() => scrollTo(productsSectionRef.current)}
 						>
-							Продукция
+							{lang === 'ru' ? 'Продукция' : 'Products'}
 						</div>
 						<div
 							className="menu-item contact"
 							onClick={() => scrollTo(contactSectionRef.current)}
 						>
-							Контакты
+							{lang === 'ru' ? 'Контакты' : 'Contacts'}
 						</div>
 					</div>
 					<div className="nav-item-wrap cta" ref={contactRef}>
@@ -165,7 +165,7 @@ const Header = () => {
 							<span>{data?.phone}</span>
 						</a>
 						<Button
-							title="Связаться"
+							title={lang === 'ru' ? 'Связаться' : 'Contact Us'}
 							onClick={() => scrollTo(contactSectionRef.current)}
 						/>
 					</div>
@@ -195,12 +195,12 @@ const Header = () => {
 					<h2>{data?.description[lang]}</h2>
 					<div className="buttons">
 						<Button
-							title="Посмотреть продукцию"
+							title={lang === 'ru' ? 'Посмотреть продукцию' : 'Products'}
 							outline
 							onClick={() => scrollTo(productsSectionRef.current)}
 						/>
 						<Button
-							title="Связаться с нами"
+							title={lang === 'ru' ? 'Связаться с нами' : 'Contact Us'}
 							outline
 							onClick={() => scrollTo(contactSectionRef.current)}
 						/>
